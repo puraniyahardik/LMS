@@ -19,13 +19,13 @@ const Footer = () => {
 {/* right side */}
       <div className='flex items-center justify-center gap-4 m-3'>
           <a href="#">
-            <img src={assets.facebook_icon} className='invert' alt="" />
+            <img src={assets.facebook_icon} className='invert-0 dark:invert' alt="" />
           </a>
           <a href="#">
-            <img src={assets.twitter_icon}  className='invert'  alt="" />
+            <img src={assets.twitter_icon}  className='invert-0 dark:invert'  alt="" />
           </a>
           <a href="#">
-            <img src={assets.instagram_icon}  className='invert'  alt="" />
+            <img src={assets.instagram_icon}  className='invert-0 dark:invert'  alt="" />
           </a>
       </div>
 
