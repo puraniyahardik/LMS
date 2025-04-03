@@ -1,7 +1,6 @@
 import  express from "express";
-import dotenv from 'dotenv'
+import 'dotenv/config'
 import cors from 'cors'
-dotenv.config();
 import connectDB  from "./config/db.js";
 import { clearWebHooks } from "./controller/webHooks.js";
 
@@ -14,6 +13,7 @@ await connectDB();
 
 //
 app.use(cors());
+app.use(express.json())
 app.get("/", (req, res) => {
     res.send("RUnning Port 3000")
 });
