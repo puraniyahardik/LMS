@@ -4,8 +4,7 @@ import cors from 'cors'
 import connectDB  from "./config/db.js";
 import { clearWebHooks } from "./controller/webHooks.js";
 
-const app =  express()
-// const PORT = process.env.PORT | 3000;
+const app =  express();
 
 //connect db fun
 await connectDB();
@@ -22,8 +21,6 @@ app.get("/", (req, res) => {
 //clerk parse middle
 app.post('/clerk', express.json(), clearWebHooks)
 
-// app.listen(PORT, ()=> {
-//     console.log(`server running on ${PORT}`);
-// })
+
 
 export default app;

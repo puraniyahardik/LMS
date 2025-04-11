@@ -1,21 +1,22 @@
 import { Webhook } from "svix";
-import userMedel from "../models/userModel.js";
+import userModel from "../models/userModel.js";
 
 export const clearWebHooks = async (req, res) => {
     try {
-        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRE) ;
+        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
-        await whook.verify(JSON.stringify(req.body),{
+       let verify =  await whook.verify(JSON.stringify(req.body),{
             'svix-id': req.headers['svix-id'],
             'svix-timestamp': req.headers['svix-timestamp'],
             'webhook-signature': req.headers['webhook-signature']
         });
-
+        console.log(verify);
+        
         const {data, type} = req.body;
-
+console.log(data, type);
 
         switch (type) {
-            case 'user.created':{
+            case 'user.created': {
                 const userData = {
                     _id: data.id,
                     email: data.email.address[0].email_address,
@@ -23,11 +24,13 @@ export const clearWebHooks = async (req, res) => {
                     imageUrl: data.imageUrl
                 }
 
-                await userMedel.create(userData);
-                res.json({})
+                let res = await userModel.create(userData);
+                console.log(res);
+                
+                res.json({success: true, result: res})
                 break;
             }
-            case 'user.updated':{
+            case 'user.updated': {
                 const userData = {
                    
                     email: data.email.address[0].email_address,
@@ -35,13 +38,13 @@ export const clearWebHooks = async (req, res) => {
                     imageUrl: data.imageUrl
                 }
 
-                await userMedel.findByIdAndUpdate(data.id, userData);
+                await userModel.findByIdAndUpdate(data.id, userData);
                 res.json({})
                 break;
             }
 
-            case 'user.deleted':{
-                await userMedel.findByIdAndDelete(data.id);
+            case 'user.deleted': {
+                await userModel.findByIdAndDelete(data.id);
                 res.json({})
                 break;
             }
@@ -52,7 +55,7 @@ export const clearWebHooks = async (req, res) => {
         }
         
     } catch (error) {
-        res.json({succes: false, message: error.message})
+        res.json({success: false, message: error.message})
         console.error(error);
         
     }
